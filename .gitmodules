@@ -1,0 +1,6 @@
+[submodule "submodules/json"]
+	path = submodules/json
+	url = git@github.com:nlohmann/json.git
+[submodule "submodules/libfranka"]
+	path = submodules/libfranka
+	url = git@github.com:frankaemika/libfranka.git
