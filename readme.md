@@ -31,6 +31,18 @@ To build a specific example, e.g. instrument_impedance_control
 
 cmake --build . --target instrument_impedance_control
 
+
+# Before running
+
+The user profile on the compute must be part of the 'realtime' group to allow realtime programs.
+
+This can be done with:
+sudo useradd <user> realtime
+
+where <user> is replaced with your username.
+
+Otherwise you will get a libfranka error "libfranka: unable to set realtime scheduling: Operation not permitted"
+
 # Building for the Franka Panda (Freja)
 
 The franka panda needs a different version of libfranka. First, navigate to the folder camfranka/submodules/libfranka
@@ -43,3 +55,13 @@ Then, checkout the correct version using
 You MUST remember to update libfrankas submodules as well, or it will fail to compile with an unhelpful error.
 
 Then, follow the normal build instructions.
+
+
+# Installing SDL2
+
+SDL2 is a library used to communicate with the xbox controller. It can be installed on ubuntu with the following commands:
+sudo apt-get install libsdl2-2.0-0
+sudo apt-get install libsdl2-dev
+
+In the event of an error, see:
+https://wiki.libsdl.org/SDL2/Installation
