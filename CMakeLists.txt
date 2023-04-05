@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.4)
 
+project(CamFranka)
+
 find_package(Eigen3 REQUIRED)
 add_library(Eigen3::Eigen3 INTERFACE IMPORTED)
 set_target_properties(Eigen3::Eigen3 PROPERTIES
