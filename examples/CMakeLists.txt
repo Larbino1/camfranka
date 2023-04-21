@@ -17,6 +17,7 @@
 
 set(MYEXAMPLES
   combined_impedance_control
+  compliant_milling
   geometric_port_impedance_control
   instrument_impedance_control
   joint_identification
