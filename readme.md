@@ -21,7 +21,7 @@ To build the code, first make a directory in the camfranka folder called build, 
 
 Then, initialize the project with some flags for libfranka using
 
->cmake <>RELEASEFLAGS>
+>cmake -DCMAKE_BUILD_TYPE=Release ..
 
 To build the entire project, from the build folder call.
 
