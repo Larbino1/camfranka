@@ -61,7 +61,7 @@ int main(int argc, char** argv) {
   const auto frame = franka::Frame::kEndEffector;
 
   // Compliance parameters
-  const double stiffness{2000.0};
+  const double stiffness{1000.0};
   const double damping{20.0};
   DiagonalSpringDamper<3,7> ee_impedance{Eigen::Array3d::Constant(stiffness),
                                          Eigen::Array3d::Constant(damping)};
@@ -122,7 +122,7 @@ int main(int argc, char** argv) {
         ee.ref = cart.pos();
         // cart_err.ref = cart.pos();
 
-        std::cout << "q: " << cart.q << ", \tpos: " << cart.pos()[1] << " " << cart.pos()[2] << " " << cart.pos()[3] << std::endl;
+        // std::cout << "q: " << cart.q << ", \tpos: " << cart.pos()[1] << " " << cart.pos()[2] << " " << cart.pos()[3] << std::endl;
         auto ee_coord = computeWorldCoord(iargs, ee);
         // auto cart_coord = computeWorldCoord(iargs, );
 	      auto joint_coord = computeJointCoord(iargs);

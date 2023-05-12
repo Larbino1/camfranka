@@ -24,26 +24,51 @@ const Eigen::Vector3d ZERO(0.0, 0.0, 0.0);
 
 int main(int argc, char** argv) {
   // Check whether the required arguments were passed
-  if (argc != 2) {
-    std::cerr << "Usage: " << argv[0] << " <robot-hostname>" << std::endl;
+  if (argc < 2) {
+    std::cerr << "Usage: " << argv[0] << " <robot-hostname> EE_OFFSET_MODE" << std::endl;
   }
+  
+  int EE_offset_mode;
+  if (argc == 3) {
+    EE_offset_mode = atoi(argv[2]);
+  } 
+  else {
+    EE_offset_mode = 1;
+  } 
  
+  Eigen::Vector3d ee_offset;
+  switch (EE_offset_mode)
+  {
+  case 1:
+    std::cout << "USING DUMMY INSTRUMENT OFFSET" << std::endl;
+    ee_offset << 0.377, 0.0, 0.042;
+    break;
+  case 2:
+    std::cout << "USING POINTY TOOL OFFSET" << std::endl;
+    ee_offset << -0.0005, -0.00014, 0.0322;
+    break;
+  case 3:
+    std::cout << "USING DREMEL OFFSET" << std::endl;
+    ee_offset << 0.377 - 0.193, 0.0, 0.042;
+    break;
+  }
+
   const char *homedir;
   homedir = getenv("HOME");
   fs::path home(homedir);
-  // fs::path registration_points_filepath = home / "data/femoralhead.json";
-  fs::path registration_points_filepath = home / "data/calibrationTriangle.json";
-  fs::path trajectory_filepath = home / "data/trajectory.json";
-  fs::path transform_cache = home / "data/register_frame_demo_transform_cache.json";
+  fs::path registration_points_filepath = "../../data/femoralhead.json";
+  // fs::path registration_points_filepath = home / "data/calibrationTriangle.json";
+  // fs::path trajectory_filepath = home / "data/trajectory.json";
+  fs::path trajectory_filepath = "../../data/STraj.json";
+  fs::path transform_cache = "../../data/register_frame_demo_transform_cache.json";
 
   PointsOrTransform p_or_tf = load_points_or_cached_transform(registration_points_filepath, transform_cache);
   Eigen::MatrixXd trajectory = parse_trajectory(open_json(trajectory_filepath));
   std::cout << "Loaded trajectory with " << trajectory.cols() << " points, starting at:" << std::endl << trajectory.col(1) << std::endl;
 
   // Geometric parameters
-  std::cout << "USING POINTY TOOL OFFSET" << std::endl;
-  Eigen::Vector3d ee_offset({-0.0005, -0.00014, 0.0322});
-  // Eigen::Vector3d ee_offset({0.377, 0.0, 0.042});
+
+
   const auto frame = franka::Frame::kEndEffector;
 
   // Compliance parameters
@@ -110,6 +135,8 @@ int main(int argc, char** argv) {
       std::cout << "\33[2K\r [" << err[0] << "\r\t, " << err[1] << "\r\t\t, " << err[2] <<"]"; flush(std::cout);
     }
     std::cout << std::endl;
+    std::cout << "DONE! Please make sure the robot is in execution mode then press enter to proceed." << std::endl;
+
 
     // Now follow trajectory...
 
