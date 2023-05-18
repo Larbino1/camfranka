@@ -61,7 +61,7 @@ int main(int argc, char** argv) {
   const auto frame = franka::Frame::kEndEffector;
 
   // Compliance parameters
-  const double stiffness{1000.0};
+  const double stiffness{2000.0};
   const double damping{20.0};
   DiagonalSpringDamper<3,7> ee_impedance{Eigen::Array3d::Constant(stiffness),
                                          Eigen::Array3d::Constant(damping)};
