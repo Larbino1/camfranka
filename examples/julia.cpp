@@ -97,7 +97,18 @@ int main(int argc, char **argv)
     {
         // connect to robot
         franka::Robot robot(argv[1]);
+        
+        
+        // Configure
         setDefaultBehavior(robot);
+        const double max_f{20.0};
+        const double max_t{10.0};
+        // set collision behavior
+        robot.setCollisionBehavior(
+            {{max_t, max_t, max_t, max_t, max_t, max_t, max_t}}, {{max_t, max_t, max_t, max_t, max_t, max_t, max_t}},
+            {{max_f, max_f, max_f, max_f, max_f, max_f}}, {{max_f, max_f, max_f, max_f, max_f, max_f}});
+
+
         // load the kinematics and dynamics model
         franka::Model model = robot.loadModel();
         franka::RobotState initial_state = robot.readOnce();
@@ -138,9 +149,8 @@ int main(int argc, char **argv)
         };
 
         // start real-time control loop
-        std::cout << "WARNING: Collision thresholds are set to high values. "
+        std::cout << "WARNING: Custom controller in action beyond this point! "
                   << "Make sure you have the user stop at hand!" << std::endl
-                  << "After starting try to push the robot and see how it reacts." << std::endl
                   << "Press Enter to continue..." << std::endl;
         std::cin.ignore();
         robot.control(impedance_control_callback);
