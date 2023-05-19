@@ -47,6 +47,7 @@ end
 function warmup(loop_func, args...)
     loop_func(0, args...)
     println("Loop times:     (should be less than 1ms)")
+    println("Args: $(args)")
     @time(loop_func(0, args...))
     @time(loop_func(1, args...))
 end
