@@ -30,6 +30,13 @@ function parse_robot_state(inpipe::IOStream; timeout)
 end
 parse_robot_state(p::Pipes, args...;kwargs...) = parse_robot_state(p.inpipe, args...; kwargs...)
 
+function parse_robot_pos_vel(p::Pipes, args...;kwargs...)  
+    x = parse_robot_state(p.inpipe, args...; kwargs...)
+    q = x[@SVector([i for i in 1:7])]
+    q̇ = x[@SVector([i for i in 8:14])]
+    return q, q̇
+end
+
 function write_robot_torques(outpipe::IOStream, torques::SVector{7, Float64})
     write(outpipe, join(torques, ","))
     write(outpipe, "\n")
