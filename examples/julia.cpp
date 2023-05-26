@@ -101,8 +101,8 @@ int main(int argc, char **argv)
         
         // Configure
         setDefaultBehavior(robot);
-        const double max_f{20.0};
-        const double max_t{15.0};
+        const double max_f{30.0};
+        const double max_t{30.0};
         // set collision behavior
         robot.setCollisionBehavior(
             {{max_t, max_t, max_t, max_t, max_t, max_t, max_t}}, {{max_t, max_t, max_t, max_t, max_t, max_t, max_t}},
